@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Death Announcement Card</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    gap: 20px;
+}
+
+/* FORM */
+.form-box {
+    width: 280px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-box h3 {
+    margin-top: 0;
+}
+
+.form-box input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 6px;
+}
+
+.form-box button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* CARD */
+#card {
+    width: 1013px;
+    height: 638px;
+    background: #fff;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* HEADER */
+.header {
+    background: #0b5f14;
+    color: #fff;
+    text-align: center;
+    font-size: 34px;
+    font-weight: bold;
+    padding: 14px;
+}
+
+/* BODY */
+.body {
+    display: flex;
+    padding: 40px;
+}
+
+/* PHOTO */
+.photo-box {
+    border: 4px solid #0b5f14;
+    width: 220px;  
+    height: 260px; 
+    box-sizing: border-box; 
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* TEXT */
+.text {
+    margin-left: 40px;
+    font-size: 26px;
+}
+
+.text h1 {
+    font-size: 26px;
+    margin: 0 0 20px;
+}
+
+/* FOOTER */
+.footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-style: italic;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FORM -->
+<div class="form-box">
+    <h3>Enter Details</h3>
+
+    <input type="file" id="imgInput" accept="image/*">
+    <input type="text" id="name" placeholder="Name">
+    <input type="date" id="expiredOn" placeholder="Expired On">
+    <input type="text" id="age" placeholder="Age">
+    <input type="text" id="address" placeholder="Address">
+    <input type="date" id="burialDate" placeholder="Burial Date">
+    <input type="time" id="time" placeholder="Time">
+    <input type="text" id="funeral" placeholder="Funeral Ceremony">
+
+    <button onclick="generateCard()">Generate Card</button>
+    <button onclick="downloadCard()">Download Image</button>
+</div>
+
+<!-- CARD -->
+<div id="card">
+    <div class="header">Karimabad JamatKhana</div>
+
+    <div class="body">
+        <div class="photo-box">
+            <img id="photo">
+        </div>
+
+        <div class="text">
+            <h1 id="cName">Name:</h1>
+            <p><b>Expired On:</b> <span id="cExpired"></span></p>
+            <p><b>Age:</b> <span id="cAge"></span></p>
+            <p><b>Address:</b> <span id="cAddress"></span></p>
+            <p><b>Burial Date:</b> <span id="cBurial"></span></p>
+            <p><b>Funeral Time:</b> <span id="cTime"></span></p>
+            <p><b>Funeral Ceremony:</b><span id="cFuneral"></span></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        Inna Lillahi Wa Inna Ilaihi Raji'un
+    </div>
+</div>
+
+<!-- SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+// Generate card
+function generateCard() {
+    document.getElementById('cName').innerText = "Name: " + document.getElementById('name').value;
+    document.getElementById('cExpired').innerText = document.getElementById('expiredOn').value;
+    document.getElementById('cAge').innerText = document.getElementById('age').value;
+    document.getElementById('cAddress').innerText = document.getElementById('address').value;
+    document.getElementById('cBurial').innerText = document.getElementById('burialDate').value;
+    document.getElementById('cTime').innerText = document.getElementById('time').value;
+    document.getElementById('cFuneral').innerText = document.getElementById('funeral').value;
+}
+
+// Image preview
+document.getElementById('imgInput').onchange = e => {
+    const reader = new FileReader();
+    reader.onload = () => document.getElementById('photo').src = reader.result;
+    reader.readAsDataURL(e.target.files[0]);
+};
+
+// Download card
+function downloadCard() {
+    const card = document.getElementById('card');
+    html2canvas(card, { scale: 2 }).then(canvas => {
+        const a = document.createElement("a");
+        a.download = "death-announcement-card.png";
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+    });
+}
+</script>
+
+</body>
+</html>
