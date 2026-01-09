@@ -49,7 +49,9 @@ body {
     background: #fff;
     border: 2px solid #000;
     box-sizing: border-box;
-    position: relative;
+
+    display: flex;
+    flex-direction: column;
 }
 
 /* HEADER */
@@ -62,25 +64,33 @@ body {
     padding: 14px;
 }
 
+/* MAIN HEADER */
+.mainheader {
+    font-size: 28px;
+    font-style: italic;
+    text-align: center;
+    margin: 15px 0;
+}
+
 /* BODY */
 .body {
     display: flex;
     padding: 30px 40px;
+    flex: 1;
 }
 
 /* PHOTO */
 .photo-box {
     border: 4px solid #0b5f14;
-    width: 220px;  
-    height: 260px; 
-    box-sizing: border-box; 
+    width: 220px;
+    height: 260px;
+    box-sizing: border-box;
 }
 
 .photo-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
 /* TEXT */
@@ -91,25 +101,21 @@ body {
 
 .text h1 {
     font-size: 26px;
-    margin: 0 0 20px;
+    margin: 0 0 18px;
 }
-.mainheader{
-        font-size: 28px;
-    font-style: italic;
-    text-align: center;
-    margin-top: 15px;
+
+.text p {
+    margin: 10px 0;
 }
 
 /* FOOTER */
 .footer {
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
     text-align: center;
     font-size: 22px;
     font-style: italic;
+    padding-bottom: 20px;
+    margin-top: auto;
 }
-
 </style>
 </head>
 
@@ -122,12 +128,12 @@ body {
     <input type="file" id="imgInput" accept="image/*">
     <input type="text" id="name" placeholder="Name">
     <input type="text" id="fname" placeholder="Father Name">
-    <input type="date" id="expiredOn" placeholder="Expired On">
+    <input type="date" id="expiredOn">
     <input type="text" id="age" placeholder="Age">
     <input type="text" id="address" placeholder="Hometown">
-    <input type="date" id="burialDate" placeholder="Burial Date">
-    <input type="time" id="time" placeholder="Time">
-    <input type="text" id="funeral" placeholder="Funeral Ceremony">
+    <input type="date" id="burialDate">
+    <input type="time" id="time">
+    <input type="text" id="funeral" placeholder="Venue">
 
     <button onclick="generateCard()">Generate Card</button>
     <button onclick="downloadCard()">Download Image</button>
@@ -136,10 +142,11 @@ body {
 <!-- CARD -->
 <div id="card">
     <div class="header">Mayyat Announcement</div>
-     <div class="mainheader">
-        إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ 
-  	  </div>
-    
+
+    <div class="mainheader">
+        إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ
+    </div>
+
     <div class="body">
         <div class="photo-box">
             <img id="photo">
@@ -152,29 +159,57 @@ body {
             <p><b>Age:</b> <span id="cAge"></span></p>
             <p><b>Hometown:</b> <span id="cAddress"></span></p>
             <p><b>Burial Date:</b> <span id="cBurial"></span></p>
-            <p><b> Namaz Janaza Time:</b> <span id="cTime"></span></p>
-            <p><b>Venue:</b><span id="cFuneral"></span></p>
+            <p><b>Namaz Janaza Time:</b> <span id="cTime"></span></p>
+            <p><b>Venue:</b> <span id="cFuneral"></span></p>
         </div>
     </div>
 
     <div class="footer">
-        Karimabad JamatKhana Mayyat committee 
+        Karimabad JamatKhana Mayyat Committee
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <script>
+// Convert time to 12-hour format with AM/PM
+function formatTime12Hour(time) {
+    if (!time) return "";
+    let [hour, minute] = time.split(":");
+    hour = parseInt(hour);
+
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+
+    return `${hour}:${minute} ${ampm}`;
+}
+
 // Generate card
 function generateCard() {
-    document.getElementById('cName').innerText = "Name: " + document.getElementById('name').value;
-    document.getElementById('fName').innerText = "Father Name: " + document.getElementById('fname').value;
-    document.getElementById('cExpired').innerText = document.getElementById('expiredOn').value;
-    document.getElementById('cAge').innerText = document.getElementById('age').value;
-    document.getElementById('cAddress').innerText = document.getElementById('address').value;
-    document.getElementById('cBurial').innerText = document.getElementById('burialDate').value;
-    document.getElementById('cTime').innerText = document.getElementById('time').value;
-    document.getElementById('cFuneral').innerText = document.getElementById('funeral').value;
+    document.getElementById('cName').innerText =
+        "Name: " + document.getElementById('name').value;
+
+    document.getElementById('fName').innerText =
+        "Father Name: " + document.getElementById('fname').value;
+
+    document.getElementById('cExpired').innerText =
+        document.getElementById('expiredOn').value;
+
+    document.getElementById('cAge').innerText =
+        document.getElementById('age').value;
+
+    document.getElementById('cAddress').innerText =
+        document.getElementById('address').value;
+
+    document.getElementById('cBurial').innerText =
+        document.getElementById('burialDate').value;
+
+    const timeValue = document.getElementById('time').value;
+    document.getElementById('cTime').innerText =
+        formatTime12Hour(timeValue);
+
+    document.getElementById('cFuneral').innerText =
+        document.getElementById('funeral').value;
 }
 
 // Image preview
@@ -186,8 +221,7 @@ document.getElementById('imgInput').onchange = e => {
 
 // Download card
 function downloadCard() {
-    const card = document.getElementById('card');
-    html2canvas(card, { scale: 2 }).then(canvas => {
+    html2canvas(document.getElementById('card'), { scale: 2 }).then(canvas => {
         const a = document.createElement("a");
         a.download = "death-announcement-card.png";
         a.href = canvas.toDataURL("image/png");
