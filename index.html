@@ -183,6 +183,22 @@ function formatTime12Hour(time) {
 
     return `${hour}:${minute} ${ampm}`;
 }
+    function formatDateDMY(dateStr) {
+    if (!dateStr) return "";
+
+    const date = new Date(dateStr);
+
+    const day = date.getDate().toString().padStart(2, "0");
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+}
+
 
 // Generate card
 function generateCard() {
@@ -192,8 +208,8 @@ function generateCard() {
     document.getElementById('fName').innerText =
         "Father Name: " + document.getElementById('fname').value;
 
-    document.getElementById('cExpired').innerText =
-        document.getElementById('expiredOn').value;
+document.getElementById('cExpired').innerText =
+    formatDateDMY(document.getElementById('expiredOn').value);
 
     document.getElementById('cAge').innerText =
         document.getElementById('age').value;
@@ -201,8 +217,8 @@ function generateCard() {
     document.getElementById('cAddress').innerText =
         document.getElementById('address').value;
 
-    document.getElementById('cBurial').innerText =
-        document.getElementById('burialDate').value;
+document.getElementById('cBurial').innerText =
+    formatDateDMY(document.getElementById('burialDate').value);
 
     const timeValue = document.getElementById('time').value;
     document.getElementById('cTime').innerText =
