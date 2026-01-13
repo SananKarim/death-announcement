@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Death Announcement Card</title>
 
 <style>
@@ -11,88 +12,104 @@ body {
     background: #f0f0f0;
     font-family: Arial, sans-serif;
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
 }
 
-/* FORM */
+/* FORM BOX */
 .form-box {
-    width: 280px;
+    width: 320px;
     background: #fff;
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    height: fit-content;
 }
 
-.form-box h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
+.form-box h3 { margin-top: 0; margin-bottom: 15px; }
+
+.form-box label {
+    font-size: 12px;
+   
+    color: #555;
+    display: block;
+    margin-bottom: 2px;
 }
 
-.form-box input {
+.form-box input, .form-box select {
     width: 100%;
-    margin-bottom: 14px;   
-    padding: 8px;
+    margin-bottom: 12px;   
+    padding: 10px;
     font-size: 14px;
-    font-weight: normal;   
     box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
-.form-box input::placeholder {
-    font-weight: normal;
-    color: #666;
-}
+
 .form-box button {
     width: 100%;
-    padding: 10px;
-    margin-top: 8px;
+    padding: 12px;
+    margin-top: 10px;
     background: #000;
     color: #fff;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+
 }
 
-/* CARD */
+/* CARD CONTAINER */
+.card-wrapper {
+    overflow-x: auto;
+    background: #ddd;
+    padding: 10px;
+    border-radius: 8px;
+}
+
 #card {
     width: 1013px;
     height: 638px;
     background: #fff;
     border: 2px solid #000;
     box-sizing: border-box;
-
     display: flex;
     flex-direction: column;
 }
 
-/* HEADER */
 .header {
     background: #0b5f14;
     color: #fff;
     text-align: center;
     font-size: 34px;
-    font-weight: bold;
+    font-weight: bold; 
     padding: 14px;
 }
 
-/* MAIN HEADER */
 .mainheader {
     font-size: 28px;
     font-style: italic;
     text-align: center;
     margin: 15px 0;
+    color: #000; 
 }
 
-/* BODY */
 .body {
     display: flex;
     padding: 30px 40px;
     flex: 1;
 }
 
-/* PHOTO */
 .photo-box {
     border: 4px solid #0b5f14;
-    width: 220px;
-    height: 260px;
+    width: 240px;
+    height: 280px;
     box-sizing: border-box;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .photo-box img {
@@ -101,157 +118,197 @@ body {
     object-fit: cover;
 }
 
-/* TEXT */
 .text {
     margin-left: 40px;
     font-size: 26px;
-}
+    color: #000; }
 
-.text h1 {
-    font-size: 26px;
-    margin: 0 0 18px;
-}
-
-.text p {
+/* Card Row Styles */
+.card-row {
     margin: 10px 0;
+    display: block;
 }
 
-/* FOOTER */
+.card-row h1 {
+    font-size: 30px;
+    margin: 0 0 10px;
+    color: #000;     
+}
+
+//.card-row h1 span, 
+.card-row p span {
+    font-weight: normal !important;
+    color: #000 !important;
+}
+
+.card-row p { 
+    margin: 8px 0; 
+    color: #000; 
+}
+
+
+.card-row b { 
+    color: #000; 
+}
+
 .footer {
     text-align: center;
     font-size: 22px;
     font-style: italic;
-    padding-bottom: 20px;
+    padding-bottom: 25px;
     margin-top: auto;
+    color: #000;
 }
 </style>
 </head>
 
 <body>
 
-<!-- FORM -->
 <div class="form-box">
     <h3>Enter Details</h3>
-
+    <label>Photo</label>
     <input type="file" id="imgInput" accept="image/*">
-    <input type="text" id="name" placeholder="Name">
-    <input type="text" id="fname" placeholder="Father Name">
-    <input type="date" id="expiredOn">
-    <input type="text" id="age" placeholder="Age">
-    <input type="text" id="address" placeholder="Hometown">
-    <input type="date" id="burialDate">
-    <input type="time" id="time">
-    <input type="text" id="funeral" placeholder="Venue">
+    
+    <label>Full Name</label>
+    <input type="text" id="name" placeholder="Enter name" oninput="updateLive()">
+    
+    <label>Relation Type</label>
+    <select id="relationType" onchange="updateLive()">
+        <option value="Father Name">Father Name</option>
+        <option value="Husband Name">Husband Name</option>
+    </select>
+    
+    <label>Relative's Name</label>
+    <input type="text" id="fname" placeholder="Enter name" oninput="updateLive()">
+    
+    <label>Expired On</label>
+    <input type="date" id="expiredOn" oninput="updateLive()">
+    
+    <label>Age</label>
+    <input type="text" id="age" placeholder="Age" oninput="updateLive()">
+    
+    <label>Hometown</label>
+    <input type="text" id="address" placeholder="Hometown" oninput="updateLive()">
+    
+    <label>Burial Date</label>
+    <input type="date" id="burialDate" oninput="updateLive()">
+    
+    <label>Namaz Janaza Time</label>
+    <input type="time" id="time" oninput="updateLive()">
+    
+    <label>Venue</label>
+    <input type="text" id="funeral" placeholder="Venue" oninput="updateLive()">
 
-    <button onclick="generateCard()">Generate Card</button>
-    <button onclick="downloadCard()">Download Image</button>
+    <button onclick="downloadCard()">Download PNG Image</button>
 </div>
 
-<!-- CARD -->
-<div id="card">
-    <div class="header">Mayyat Announcement</div>
+<div class="card-wrapper">
+    <div id="card">
+        <div class="header">Mayyat Announcement</div>
 
-    <div class="mainheader">
-        إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ
-    </div>
+        <div class="mainheader">إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ</div>
 
-    <div class="body">
-        <div class="photo-box">
-            <img id="photo">
+        <div class="body">
+            <div class="photo-box">
+                <img id="photo" src="" style="display:none;">
+                <span id="photoPlaceholder" style="color:#999">No Photo</span>
+            </div>
+
+            <div class="text">
+                <div class="card-row" id="rowName">
+                    <h1>Name: <span id="cName"></span></h1>
+                </div>
+                <div class="card-row" id="rowRel">
+                    <h1><span id="cRelLabel">Father Name</span>: <span id="cRelName"></span></h1>
+                </div>
+                
+                <div class="card-row" id="rowExpired"><p><b>Expired On:</b> <span id="cExpired"></span></p></div>
+                <div class="card-row" id="rowAge"><p><b>Age:</b> <span id="cAge"></span></p></div>
+                <div class="card-row" id="rowAddress"><p><b>Hometown:</b> <span id="cAddress"></span></p></div>
+                <div class="card-row" id="rowBurial"><p><b>Burial Date:</b> <span id="cBurial"></span></p></div>
+                <div class="card-row" id="rowTime"><p><b>Namaz Janaza Time:</b> <span id="cTime"></span></p></div>
+                <div class="card-row" id="rowFuneral"><p><b>Venue:</b> <span id="cFuneral"></span></p></div>
+            </div>
         </div>
 
-        <div class="text">
-            <h1 id="cName">Name:</h1>
-            <h1 id="fName">Father Name:</h1>
-            <p><b>Expired On:</b> <span id="cExpired"></span></p>
-            <p><b>Age:</b> <span id="cAge"></span></p>
-            <p><b>Hometown:</b> <span id="cAddress"></span></p>
-            <p><b>Burial Date:</b> <span id="cBurial"></span></p>
-            <p><b>Namaz Janaza Time:</b> <span id="cTime"></span></p>
-            <p><b>Venue:</b> <span id="cFuneral"></span></p>
-        </div>
-    </div>
-
-    <div class="footer">
-        Karimabad JamatKhana Mayyat Committee
+        <div class="footer">Karimabad JamatKhana Mayyat Committee</div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
-// Convert time to 12-hour format with AM/PM
 function formatTime12Hour(time) {
     if (!time) return "";
     let [hour, minute] = time.split(":");
     hour = parseInt(hour);
-
     const ampm = hour >= 12 ? "PM" : "AM";
     hour = hour % 12 || 12;
-
     return `${hour}:${minute} ${ampm}`;
 }
-    function formatDateDMY(dateStr) {
+
+function formatDateDMY(dateStr) {
     if (!dateStr) return "";
-
     const date = new Date(dateStr);
-
     const day = date.getDate().toString().padStart(2, "0");
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-
-    return `${day} ${month} ${year}`;
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return `${day} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+function toggleRow(inputId, rowId, outputId, isDate = false, isTime = false) {
+    const value = document.getElementById(inputId).value;
+    const row = document.getElementById(rowId);
+    const output = document.getElementById(outputId);
 
-// Generate card
-function generateCard() {
-    document.getElementById('cName').innerText =
-        "Name: " + document.getElementById('name').value;
-
-    document.getElementById('fName').innerText =
-        "Father Name: " + document.getElementById('fname').value;
-
-document.getElementById('cExpired').innerText =
-    formatDateDMY(document.getElementById('expiredOn').value);
-
-    document.getElementById('cAge').innerText =
-        document.getElementById('age').value;
-
-    document.getElementById('cAddress').innerText =
-        document.getElementById('address').value;
-
-document.getElementById('cBurial').innerText =
-    formatDateDMY(document.getElementById('burialDate').value);
-
-    const timeValue = document.getElementById('time').value;
-    document.getElementById('cTime').innerText =
-        formatTime12Hour(timeValue);
-
-    document.getElementById('cFuneral').innerText =
-        document.getElementById('funeral').value;
+    if (value.trim() === "") {
+        row.style.display = "none";
+    } else {
+        row.style.display = "block";
+        if (isDate) output.innerText = formatDateDMY(value);
+        else if (isTime) output.innerText = formatTime12Hour(value);
+        else output.innerText = value;
+    }
 }
 
-// Image preview
+function updateLive() {
+    toggleRow('name', 'rowName', 'cName');
+
+    const relType = document.getElementById('relationType').value;
+    document.getElementById('cRelLabel').innerText = relType;
+    toggleRow('fname', 'rowRel', 'cRelName');
+
+    toggleRow('expiredOn', 'rowExpired', 'cExpired', true);
+    toggleRow('age', 'rowAge', 'cAge');
+    toggleRow('address', 'rowAddress', 'cAddress');
+    toggleRow('burialDate', 'rowBurial', 'cBurial', true);
+    toggleRow('time', 'rowTime', 'cTime', false, true);
+    toggleRow('funeral', 'rowFuneral', 'cFuneral');
+}
+
 document.getElementById('imgInput').onchange = e => {
-    const reader = new FileReader();
-    reader.onload = () => document.getElementById('photo').src = reader.result;
-    reader.readAsDataURL(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const img = document.getElementById('photo');
+            img.src = reader.result;
+            img.style.display = 'block';
+            document.getElementById('photoPlaceholder').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
 };
 
-// Download card
 function downloadCard() {
     html2canvas(document.getElementById('card'), { scale: 2 }).then(canvas => {
         const a = document.createElement("a");
-        a.download = "death-announcement-card.png";
+        a.download = `Mayyat_${document.getElementById('name').value || 'Announcement'}.png`;
         a.href = canvas.toDataURL("image/png");
         a.click();
     });
 }
+
+updateLive();
 </script>
 
 </body>
