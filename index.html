@@ -2,82 +2,314 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>NEON BOMBER — Arcade</title>
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Death Announcement Card</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* FORM BOX */
+.form-box {
+    width: 320px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.form-box h3 { margin-top: 0; margin-bottom: 15px; }
+
+.form-box label {
+    font-size: 12px;
+   
+    color: #555;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.form-box input, .form-box select {
+    width: 100%;
+    margin-bottom: 12px;   
+    padding: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+
+}
+
+/* CARD CONTAINER */
+.card-wrapper {
+    overflow-x: auto;
+    background: #ddd;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#card {
+    width: 1013px;
+    height: 638px;
+    background: #fff;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: #0b5f14;
+    color: #fff;
+    text-align: center;
+    font-size: 34px;
+    font-weight: bold; 
+    padding: 14px;
+}
+
+.mainheader {
+    font-size: 28px;
+    font-style: italic;
+    text-align: center;
+    margin: 15px 0;
+    color: #000; 
+}
+
+.body {
+    display: flex;
+    padding: 30px 40px;
+    flex: 1;
+}
+
+.photo-box {
+    border: 4px solid #0b5f14;
+    width: 240px;
+    height: 280px;
+    box-sizing: border-box;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.text {
+    margin-left: 40px;
+    font-size: 26px;
+    color: #000; }
+
+/* Card Row Styles */
+.card-row {
+    margin: 10px 0;
+    display: block;
+}
+
+.card-row h1 {
+    font-size: 30px;
+    margin: 0 0 10px;
+    color: #000;     
+}
+
+//.card-row h1 span, 
+.card-row p span {
+    font-weight: normal !important;
+    color: #000 !important;
+}
+
+.card-row p { 
+    margin: 8px 0; 
+    color: #000; 
+}
+
+
+.card-row b { 
+    color: #000; 
+}
+
+.footer {
+    text-align: center;
+    font-size: 22px;
+    font-style: italic;
+    padding-bottom: 25px;
+    margin-top: auto;
+    color: #000;
+}
+</style>
 </head>
+
 <body>
 
-  <div id="game-shell">
+<div class="form-box">
+    <h3>Enter Details</h3>
+    <label>Photo</label>
+    <input type="file" id="imgInput" accept="image/*">
+    
+    <label>Full Name</label>
+    <input type="text" id="name" placeholder="Enter name" oninput="updateLive()">
+    
+    <label>Relation Type</label>
+    <select id="relationType" onchange="updateLive()">
+        <option value="Father Name">Father Name</option>
+        <option value="Husband Name">Husband Name</option>
+    </select>
+    
+    <label>Relative's Name</label>
+    <input type="text" id="fname" placeholder="Enter name" oninput="updateLive()">
+    
+    <label>Expired On</label>
+    <input type="date" id="expiredOn" oninput="updateLive()">
+    
+    <label>Age</label>
+    <input type="text" id="age" placeholder="Age" oninput="updateLive()">
+    
+    <label>Hometown</label>
+    <input type="text" id="address" placeholder="Hometown" oninput="updateLive()">
+    
+    <label>Burial Date</label>
+    <input type="date" id="burialDate" oninput="updateLive()">
+    
+    <label>Namaz Janaza Time</label>
+    <input type="time" id="time" oninput="updateLive()">
+    
+    <label>Venue</label>
+    <input type="text" id="funeral" placeholder="Venue" oninput="updateLive()">
 
-    <!-- ======= Top HUD ======= -->
-    <header id="hud">
-      <div class="hud-item">SCORE <span id="hud-score" class="hud-value">0</span></div>
-      <div class="hud-item">LEVEL <span id="hud-level" class="hud-value">1</span></div>
-      <div class="hud-item">LIVES <span id="hud-lives" class="hud-value lives">♥♥♥</span></div>
-      <div class="hud-item">ENEMIES <span id="hud-enemies" class="hud-value">3</span></div>
-      <div class="hud-item">BOMBS <span id="hud-bombs" class="hud-value">2/2</span></div>
-      <div class="hud-item">NEXT <span id="hud-progress" class="hud-value progress">—</span></div>
-      <div id="hud-power" class="hud-item">
-        <span id="hud-turbo" class="power-badge cyan off">TURBO 0.0s</span>
-        <span id="hud-tosser" class="power-badge orange off">TOSS [E]</span>
-        <span id="hud-shield" class="power-badge violet off">SHIELD</span>
-        <span id="hud-warp" class="power-badge blue off">WARP 0.0s</span>
-        <span id="hud-chaos" class="power-badge red off">OVERCHARGE 0.0s</span>
-        <span id="hud-drone" class="power-badge green off">DRONE 0.0s</span>
-      </div>
-      <button id="fullscreen-toggle" type="button" aria-label="Toggle fullscreen" title="Fullscreen">⛶</button>
-      <button id="sound-toggle" type="button" aria-label="Toggle sound">🔊</button>
-    </header>
+    <button onclick="downloadCard()">Download PNG Image</button>
+</div>
 
-    <!-- ======= Game area ======= -->
-    <div id="board-wrap">
-      <canvas id="game-canvas" width="720" height="624"></canvas>
+<div class="card-wrapper">
+    <div id="card">
+        <div class="header">Mayyat Announcement</div>
 
-      <!-- Overlays (start / pause / game over / victory) -->
-      <div id="overlay-start" class="overlay">
-        <h1 class="neon-title">NEON<br>BOMBER</h1>
-        <p class="overlay-sub">Blast the bricks. Hunt the ghosts.<br>Don't get caught in your own fire.</p>
-        <div class="controls-hint">
-          <p><b>Move</b> — Arrow keys / WASD</p>
-          <p><b>Bomb</b> — Space &nbsp;·&nbsp; <b>Throw</b> — E (needs Bomb Tosser)</p>
-          <p><b>Pause</b> — P or Esc &nbsp;·&nbsp; <b>Restart</b> — R</p>
+        <div class="mainheader">إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ</div>
+
+        <div class="body">
+            <div class="photo-box">
+                <img id="photo" src="" style="display:none;">
+                <span id="photoPlaceholder" style="color:#999">No Photo</span>
+            </div>
+
+            <div class="text">
+                <div class="card-row" id="rowName">
+                    <h1>Name: <span id="cName"></span></h1>
+                </div>
+                <div class="card-row" id="rowRel">
+                    <h1><span id="cRelLabel">Father Name</span>: <span id="cRelName"></span></h1>
+                </div>
+                
+                <div class="card-row" id="rowExpired"><p><b>Expired On:</b> <span id="cExpired"></span></p></div>
+                <div class="card-row" id="rowAge"><p><b>Age:</b> <span id="cAge"></span></p></div>
+                <div class="card-row" id="rowAddress"><p><b>Hometown:</b> <span id="cAddress"></span></p></div>
+                <div class="card-row" id="rowBurial"><p><b>Burial Date:</b> <span id="cBurial"></span></p></div>
+                <div class="card-row" id="rowTime"><p><b>Namaz Janaza Time:</b> <span id="cTime"></span></p></div>
+                <div class="card-row" id="rowFuneral"><p><b>Venue:</b> <span id="cFuneral"></span></p></div>
+            </div>
         </div>
-        <button id="btn-play" class="arcade-btn" type="button">▶ PLAY</button>
-      </div>
 
-      <div id="overlay-pause" class="overlay hidden">
-        <h2 class="neon-title small">PAUSED</h2>
-        <button id="btn-resume" class="arcade-btn" type="button">RESUME</button>
-        <button id="btn-restart-pause" class="arcade-btn secondary" type="button">RESTART</button>
-      </div>
-
-      <div id="overlay-gameover" class="overlay hidden">
-        <h2 class="neon-title small danger">GAME OVER</h2>
-        <p class="overlay-sub">Final score: <span id="final-score-loss">0</span></p>
-        <button id="btn-retry" class="arcade-btn" type="button">↻ TRY AGAIN</button>
-      </div>
-
-      <div id="overlay-victory" class="overlay hidden">
-        <h2 class="neon-title small victory">YOU WIN!</h2>
-        <p class="overlay-sub">All ghosts destroyed.<br>Final score: <span id="final-score-win">0</span></p>
-        <button id="btn-restart-win" class="arcade-btn" type="button">↻ PLAY AGAIN</button>
-      </div>
+        <div class="footer">Karimabad JamatKhana Mayyat Committee</div>
     </div>
+</div>
 
-    <!-- ======= Mobile touch controls ======= -->
-    <div id="touch-controls">
-      <div id="dpad">
-        <button class="tbtn up"    data-dir="up"    type="button" aria-label="Up">▲</button>
-        <button class="tbtn left"  data-dir="left"  type="button" aria-label="Left">◀</button>
-        <button class="tbtn down"  data-dir="down"  type="button" aria-label="Down">▼</button>
-        <button class="tbtn right" data-dir="right" type="button" aria-label="Right">▶</button>
-      </div>
-      <button id="btn-bomb-touch" type="button" aria-label="Place bomb">💣</button>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-  </div>
+<script>
+function formatTime12Hour(time) {
+    if (!time) return "";
+    let [hour, minute] = time.split(":");
+    hour = parseInt(hour);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+    return `${hour}:${minute} ${ampm}`;
+}
 
-  <script src="game.js"></script>
+function formatDateDMY(dateStr) {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, "0");
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return `${day} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+function toggleRow(inputId, rowId, outputId, isDate = false, isTime = false) {
+    const value = document.getElementById(inputId).value;
+    const row = document.getElementById(rowId);
+    const output = document.getElementById(outputId);
+
+    if (value.trim() === "") {
+        row.style.display = "none";
+    } else {
+        row.style.display = "block";
+        if (isDate) output.innerText = formatDateDMY(value);
+        else if (isTime) output.innerText = formatTime12Hour(value);
+        else output.innerText = value;
+    }
+}
+
+function updateLive() {
+    toggleRow('name', 'rowName', 'cName');
+
+    const relType = document.getElementById('relationType').value;
+    document.getElementById('cRelLabel').innerText = relType;
+    toggleRow('fname', 'rowRel', 'cRelName');
+
+    toggleRow('expiredOn', 'rowExpired', 'cExpired', true);
+    toggleRow('age', 'rowAge', 'cAge');
+    toggleRow('address', 'rowAddress', 'cAddress');
+    toggleRow('burialDate', 'rowBurial', 'cBurial', true);
+    toggleRow('time', 'rowTime', 'cTime', false, true);
+    toggleRow('funeral', 'rowFuneral', 'cFuneral');
+}
+
+document.getElementById('imgInput').onchange = e => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const img = document.getElementById('photo');
+            img.src = reader.result;
+            img.style.display = 'block';
+            document.getElementById('photoPlaceholder').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+function downloadCard() {
+    html2canvas(document.getElementById('card'), { scale: 2 }).then(canvas => {
+        const a = document.createElement("a");
+        a.download = `Mayyat_${document.getElementById('name').value || 'Announcement'}.png`;
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+    });
+}
+
+updateLive();
+</script>
+
 </body>
 </html>
